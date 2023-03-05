@@ -51,7 +51,7 @@ var lists = {
       password: (0, import_fields.password)({ validation: { isRequired: true } }),
       // we can use this field to see what Posts this User has authored
       //   more on that in the Post list below
-      posts: (0, import_fields.relationship)({ ref: "Post.author", many: true }),
+      // posts: relationship({ ref: 'Post.author', many: true }),
       createdAt: (0, import_fields.timestamp)({
         // this sets the timestamp to Date.now() when the user is first created
         defaultValue: { kind: "now" }
@@ -80,39 +80,39 @@ var lists = {
         ],
         links: true,
         dividers: true
-      }),
-      // with this field, you can set a User as the author for a Post
-      author: (0, import_fields.relationship)({
-        // we could have used 'User', but then the relationship would only be 1-way
-        ref: "User.posts",
-        // this is some customisations for changing how this will look in the AdminUI
-        ui: {
-          displayMode: "cards",
-          cardFields: ["name", "email"],
-          inlineEdit: { fields: ["name", "email"] },
-          linkToItem: true,
-          inlineConnect: true
-        },
-        // a Post can only have one author
-        //   this is the default, but we show it here for verbosity
-        many: false
-      }),
-      // with this field, you can add some Tags to Posts
-      tags: (0, import_fields.relationship)({
-        // we could have used 'Tag', but then the relationship would only be 1-way
-        ref: "Tag.posts",
-        // a Post can have many Tags, not just one
-        many: true,
-        // this is some customisations for changing how this will look in the AdminUI
-        ui: {
-          displayMode: "cards",
-          cardFields: ["name"],
-          inlineEdit: { fields: ["name"] },
-          linkToItem: true,
-          inlineConnect: true,
-          inlineCreate: { fields: ["name"] }
-        }
       })
+      // with this field, you can set a User as the author for a Post
+      // author: relationship({
+      //     // we could have used 'User', but then the relationship would only be 1-way
+      //     ref: "User.posts",
+      //     // this is some customisations for changing how this will look in the AdminUI
+      //     ui: {
+      //         displayMode: "cards",
+      //         cardFields: ["name", "email"],
+      //         inlineEdit: { fields: ["name", "email"] },
+      //         linkToItem: true,
+      //         inlineConnect: true,
+      //     },
+      //     // a Post can only have one author
+      //     //   this is the default, but we show it here for verbosity
+      //     many: false,
+      // }),
+      // with this field, you can add some Tags to Posts
+      // tags: relationship({
+      //     // we could have used 'Tag', but then the relationship would only be 1-way
+      //     ref: "Tag.posts",
+      //     // a Post can have many Tags, not just one
+      //     many: true,
+      //     // this is some customisations for changing how this will look in the AdminUI
+      //     ui: {
+      //         displayMode: "cards",
+      //         cardFields: ["name"],
+      //         inlineEdit: { fields: ["name"] },
+      //         linkToItem: true,
+      //         inlineConnect: true,
+      //         inlineCreate: { fields: ["name"] },
+      //     },
+      // }),
     }
   }),
   // this last list is our Tag list, it only has a name field for now
@@ -128,9 +128,9 @@ var lists = {
     },
     // this is the fields for our Tag list
     fields: {
-      name: (0, import_fields.text)(),
+      name: (0, import_fields.text)()
       // this can be helpful to find out all the Posts associated with a Tag
-      posts: (0, import_fields.relationship)({ ref: "Post.tags", many: true })
+      // posts: relationship({ ref: "Post.tags", many: true }),
     }
   })
 };
@@ -175,8 +175,8 @@ var keystone_default = withAuth(
       // we're using sqlite for the fastest startup experience
       //   for more information on what database might be appropriate for you
       //   see https://keystonejs.com/docs/guides/choosing-a-database#title
-      provider: "sqlite",
-      url: "file:./keystone.db"
+      provider: "mysql",
+      url: "mysql://j6021tqa0zu1baojh8s4:pscale_pw_LUCQJR5KOdMf0MnRoV5xB5LaOErefFEe1j8znpCT5tl@ap-south.connect.psdb.cloud/appdb?sslaccept=strict"
     },
     lists,
     session
